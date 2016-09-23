@@ -94,6 +94,7 @@ switch(__BrowserGetter.adaptationType){
 var _scissorRect = cc.rect();
 
 /**
+ * !#en
  * cc.view is the singleton object which represents the game window.<br/>
  * It's main task include: <br/>
  *  - Apply the design resolution policy<br/>
@@ -104,7 +105,17 @@ var _scissorRect = cc.rect();
  * Since the cc.view is a singleton, you don't need to call any constructor or create functions,<br/>
  * the standard way to use it is by calling:<br/>
  *  - cc.view.methodName(); <br/>
- *
+ * !#zh
+ * cc.view 是单例对象，它表示游戏窗口。<br/>
+ * 它主要任务包括：<br/>
+ *  - 应用设计解决策略 <br/>
+ *  - 提供与窗口交互，就像基于 web 的 resize 事件，视网膜显示支持等..<br/>
+ *  - 管理游戏视图端口，其可以是与窗口不同 <br/>
+ *  - 管理内容的缩放和平移 <br/>
+ * <br/>
+ * 由于 cc.view 是一个单例，你不需要调用任何构造函数或创建函数，<br/>
+ * 使用它的标准方法是通过调用：
+ *  - cc.view.methodName(); <br/>
  * @class View
  */
 var View = cc._Class.extend({
@@ -220,6 +231,7 @@ var View = cc._Class.extend({
     },
 
     /**
+     * !#en
      * <p>
      * Sets view's target-densitydpi for android mobile browser. it can be set to:           <br/>
      *   1. cc.macro.DENSITYDPI_DEVICE, value is "device-dpi"                                      <br/>
@@ -228,7 +240,15 @@ var View = cc._Class.extend({
      *   4. cc.macro.DENSITYDPI_LOW, value is "low-dpi"                                            <br/>
      *   5. Custom value, e.g: "480"                                                         <br/>
      * </p>
-     *
+     * !#zh
+     * <p>
+     * 设置视图的目标分辨率为 android 的手机浏览器。它可以被设置为：            <br/>
+     *   1. cc.macro.DENSITYDPI_DEVICE, 数值是 "device-dpi"                 <br/>
+     *   2. cc.macro.DENSITYDPI_HIGH, 数值是 "high-dpi" (默认数值)           <br/>
+     *   3. cc.macro.DENSITYDPI_MEDIUM, 数值是 "medium-dpi"（浏览器的默认值） <br/>
+     *   4. cc.macro.DENSITYDPI_LOW, 数值是 "low-dpi"                        <br/>
+     *   5. 自定义数值, e.g: "480"                                           <br/>
+     * </p>
      * @method setTargetDensityDPI
      * @param {String} densityDPI
      */
@@ -238,7 +258,8 @@ var View = cc._Class.extend({
     },
 
     /**
-     * Returns the current target-densitydpi value of cc.view.
+     * !#en Returns the current target-densitydpi value of cc.view.
+     * !#zh 返回 cc.view 当前的目标分辨率。
      * @method getTargetDensityDPI
      * @returns {String}
      */
@@ -247,8 +268,11 @@ var View = cc._Class.extend({
     },
 
     /**
+     * !#en
      * Sets whether resize canvas automatically when browser's size changed.<br/>
      * Useful only on web.
+     * !#zh
+     * 设置浏览器的大小更改时是否自动调整画布。（只基于 web 才有效）
      * @method resizeWithBrowserSize
      * @param {Boolean} enabled - Whether enable automatic resize with browser's resize event
      */
@@ -271,10 +295,16 @@ var View = cc._Class.extend({
     },
 
     /**
+     * !#en
      * Sets the callback function for cc.view's resize action,<br/>
      * this callback will be invoked before applying resolution policy, <br/>
      * so you can do any additional modifications within the callback.<br/>
      * Useful only on web.
+     * !#zh
+     * 设置 cc.view 大小调整操作回调函数，<br/>
+     * 这个回调将应用解决策略之前被调用，<br/>
+     * 这样你就可以在回调中做任何其他修改。<br/>
+     * （只基于 web 才有效）
      * @method setResizeCallback
      * @param {Function|Null} callback - The callback function
      */
@@ -285,11 +315,17 @@ var View = cc._Class.extend({
     },
 
     /**
-     * Sets the orientation of the game, it can be landscape, portrait or auto.
-     * When set it to landscape or portrait, and screen w/h ratio doesn't fit, 
-     * cc.view will automatically rotate the game canvas using CSS.
-     * Note that this function doesn't have any effect in native, 
-     * in native, you need to set the application orientation in native project settings
+     * !#en
+     * Sets the orientation of the game, it can be landscape, portrait or auto. <br/>
+     * When set it to landscape or portrait, and screen w/h ratio doesn't fit, <br/>
+     * cc.view will automatically rotate the game canvas using CSS. <br/>
+     * Note that this function doesn't have any effect in native,  <br/>
+     * in native, you need to set the application orientation in native project settings <br/>
+     * !#zh
+     * 设置游戏的方向，它可以 landscape 、portrait 或 auto。<br/>
+     * 当它设置为横向或纵向，屏幕宽/高比例不适应，<br/>
+     * cc.view 将使用 CSS 自动旋转游戏画布。<br/>
+     * 注意：该功能 native 不会受到影响，在 native 中你需要设置 native 项目的应用方向。
      * @method setOrientation
      * @param {Number} orientation - Possible values: cc.macro.ORIENTATION_LANDSCAPE | cc.macro.ORIENTATION_PORTRAIT | cc.macro.ORIENTATION_AUTO
      */
@@ -395,10 +431,16 @@ var View = cc._Class.extend({
     },
 
     /**
+     * !#en
      * Sets whether the engine modify the "viewport" meta in your web page.<br/>
      * It's enabled by default, we strongly suggest you not to disable it.<br/>
      * And even when it's enabled, you can still set your own "viewport" meta, it won't be overridden<br/>
      * Only useful on web
+     * !#zh
+     * 设置引擎是否在你的 web 页面中修改 "viewport"。<br/>
+     * 这是默认启用的，我们强烈建议您不要禁用它。<br/>
+     * 甚至当启用它，你仍然可以设置自己的 "viewport"，它不会被覆盖 <br/>
+     * （只基于 web 才有效）
      * @method adjustViewPort
      * @param {Boolean} enabled - Enable automatic modification to "viewport" meta
      */
@@ -407,9 +449,14 @@ var View = cc._Class.extend({
     },
 
     /**
+     * !#en
      * Retina support is enabled by default for Apple device but disabled for other devices,<br/>
      * it takes effect only when you called setDesignResolutionPolicy<br/>
      * Only useful on web
+     * !#zh
+     * 默认情况下启用视网膜支持苹果的设备，但对其他设备禁用，<br/>
+     * 当你调用 setDesignResolutionPolicy 时，它生效 <br/>
+     * （只基于 web 才有效）
      * @method enableRetina
      * @param {Boolean} enabled - Enable or disable retina display
      */
@@ -418,8 +465,12 @@ var View = cc._Class.extend({
     },
 
     /**
+     * !#en
      * Check whether retina display is enabled.<br/>
      * Only useful on web
+     * !#zh
+     * 检查是否启用了视网膜显示。<br/>
+     * （只基于 web 才有效）
      * @method isRetinaEnabled
      * @return {Boolean}
      */
@@ -476,10 +527,16 @@ var View = cc._Class.extend({
     isAntiAliasEnabled: function () {
         return this._antiAliasEnabled;
     },
+
     /**
+     * !#en
      * If enabled, the application will try automatically to enter full screen mode on mobile devices<br/>
      * You can pass true as parameter to enable it and disable it by passing false.<br/>
      * Only useful on web
+     * !#zh
+     * 如果启用，则该应用程序将尝试在移动设备上自动进入全屏模式 <br/>
+     * 你可以传递 true 作为参数来启用它，并通过将 false 禁用它。<br/>
+     * （只基于 web 才有效）
      * @method enableAutoFullScreen
      * @param {Boolean} enabled - Enable or disable auto full screen on mobile devices
      */
@@ -495,8 +552,12 @@ var View = cc._Class.extend({
     },
 
     /**
+     * !#en
      * Check whether auto full screen is enabled.<br/>
      * Only useful on web
+     * !#zh
+     * 检查是否已启用自动全屏。<br/>
+     * （只基于 web 才有效）
      * @method isAutoFullScreenEnabled
      * @return {Boolean} Auto full screen enabled or not
      */
@@ -505,8 +566,12 @@ var View = cc._Class.extend({
     },
 
     /**
+     * !#en
      * Get whether render system is ready(no matter opengl or canvas),<br/>
      * this name is for the compatibility with cocos2d-x, subclass must implement this method.
+     * !#zh
+     * 获取渲染系统是否已准备好（无论 opengl 或者帆布），<br/>
+     * 此名称是与 cocos2d-x 的兼容性，子类必须实现此方法。
      * @method isViewReady
      * @return {Boolean}
      */
@@ -515,7 +580,8 @@ var View = cc._Class.extend({
     },
 
     /*
-     * Set zoom factor for frame. This method is for debugging big resolution (e.g.new ipad) app on desktop.
+     * !#en Set zoom factor for frame. This method is for debugging big resolution (e.g.new ipad) app on desktop.
+     * !#zh 设置画面的缩放系数，此方法用于调试桌面上的大分辨率的应用程序 (e.g.new ipad)。
      * @method setFrameZoomFactor
      * @param {Number} zoomFactor
      */
@@ -526,7 +592,8 @@ var View = cc._Class.extend({
     },
 
     /**
-     * Sets the resolution translate on View.
+     * !#en Sets the resolution translate on View.
+     * !#zh 设置视图的分辨率转换。
      * @method setContentTranslateLeftTop
      * @param {Number} offsetLeft
      * @param {Number} offsetTop
@@ -536,7 +603,8 @@ var View = cc._Class.extend({
     },
 
     /**
-     * Returns the resolution translate on View
+     * !#en Returns the resolution translate on View
+     * !#zh 返回视图的分辨率转换。
      * @method getContentTranslateLeftTop
      * @return {Size|Object}
      */
@@ -579,9 +647,14 @@ var View = cc._Class.extend({
     },
 
     /**
+     * !#en
      * Returns the frame size of the view.<br/>
      * On native platforms, it returns the screen size since the view is a fullscreen view.<br/>
      * On web, it returns the size of the canvas's outer DOM element.
+     * !#zh
+     * 返回视图画面大小。<br/>
+     * 在 native 平台上，既然视图为全屏视图，它将返回屏幕大小。<br/>
+     * 在 web 平台上，它返回绘图画布外 DOM 元素的大小。
      * @method getFrameSize
      * @return {Size}
      */
@@ -590,8 +663,12 @@ var View = cc._Class.extend({
     },
 
     /**
+     * !#en
      * On native, it sets the frame size of view.<br/>
      * On web, it sets the size of the canvas's outer DOM element.
+     * !#zh
+     * 在 native 平台上，设置视图画面大小。<br/>
+     * 在 web 平台上，设置画布外 DOM 元素的大小。
      * @method setFrameSize
      * @param {Number} width
      * @param {Number} height
@@ -607,7 +684,8 @@ var View = cc._Class.extend({
     },
 
     /**
-     * Returns the visible area size of the view port.
+     * !#en Returns the visible area size of the view port.
+     * !#zh 返回视图的可见区域的大小。
      * @method getVisibleSize
      * @return {Size}
      */
@@ -616,7 +694,8 @@ var View = cc._Class.extend({
     },
 
     /**
-     * Returns the visible area size of the view port.
+     * !#en Returns the visible area size of the view port.
+     * !#zh 返回视图的可见区域大小（像素）。
      * @method getVisibleSizeInPixel
      * @return {Size}
      */
@@ -626,7 +705,8 @@ var View = cc._Class.extend({
     },
 
     /**
-     * Returns the visible origin of the view port.
+     * !#en Returns the visible origin of the view port.
+     * !#zh 返回视图的可见区域的坐标。
      * @method getVisibleOrigin
      * @return {Vec2}
      */
@@ -635,7 +715,8 @@ var View = cc._Class.extend({
     },
 
     /**
-     * Returns the visible origin of the view port.
+     * !#en Returns the visible origin of the view port.
+     * !#zh 返回视图的可见区域的坐标（像素）。
      * @method getVisibleOriginInPixel
      * @return {Vec2}
      */
@@ -644,7 +725,7 @@ var View = cc._Class.extend({
                     this._visibleRect.y * this._scaleY);
     },
 
-    /**
+    /*
      * Returns whether developer can set content's scale factor.
      * @method canSetContentScaleFactor
      * @return {Boolean}
@@ -654,7 +735,8 @@ var View = cc._Class.extend({
     },
 
     /**
-     * Returns the current resolution policy
+     * !#en Returns the current resolution policy.
+     * !#zh 返回当前分辨率策略。
      * @see cc.ResolutionPolicy
      * @method getResolutionPolicy
      * @return {ResolutionPolicy}
@@ -664,7 +746,8 @@ var View = cc._Class.extend({
     },
 
     /**
-     * Sets the current resolution policy
+     * !#en Sets the current resolution policy.
+     * !#zh 设置当前分辨率策略。
      * @see cc.ResolutionPolicy
      * @method setResolutionPolicy
      * @param {ResolutionPolicy|Number} resolutionPolicy
@@ -691,6 +774,7 @@ var View = cc._Class.extend({
     },
 
     /**
+     * !#en
      * Sets the resolution policy with designed view size in points.<br/>
      * The resolution policy include: <br/>
      * [1] ResolutionExactFit       Fill screen by stretch-to-fit: if the design resolution ratio of width to height is different from the screen resolution ratio, your game view will be stretched.<br/>
@@ -699,6 +783,15 @@ var View = cc._Class.extend({
      * [4] ResolutionFixedHeight    Scale the content's height to screen's height and proportionally scale its width<br/>
      * [5] ResolutionFixedWidth     Scale the content's width to screen's width and proportionally scale its height<br/>
      * [cc.ResolutionPolicy]        [Web only feature] Custom resolution policy, constructed by cc.ResolutionPolicy<br/>
+     * !#zh
+     * 设置在点设计视图大小分辨率策略。<br/>
+     * 该策略包括：<br/>
+     * [1] ResolutionExactFit 通过拉伸至合适的填充屏幕：如果设计宽度与高度的分辨率不同于屏幕的分辨率，你的游戏视图将被拉长。<br/>
+     * [2] ResolutionNoBorder 全屏无黑边：如果设计宽度与高度的分辨率不同于屏幕分辨率，游戏视图的两个区域将被裁剪。<br/>
+     * [3] ResolutionShowAll 全屏幕黑色边框：如果设计宽度与高度的分辨率不同于屏幕分辨率，将显示两个黑色边框。<br/>
+     * [4] ResolutionFixedHeight 缩放内容的高度为屏幕的高度和比例缩放宽度。<br/>
+     * [5] ResolutionFixedWidth 缩放内容宽度为屏幕宽度和按比例缩放的高度。<br/>
+     * [cc.ResolutionPolicy] [Web 才有效果] 通过 cc.ResolutionPolicy 自定义分辨率策略。<br/>
      * @method setDesignResolutionSize
      * @param {Number} width Design resolution width.
      * @param {Number} height Design resolution height.
@@ -777,8 +870,11 @@ var View = cc._Class.extend({
     },
 
     /**
+     * !#en
      * Returns the designed size for the view.
      * Default resolution size is the same as 'getFrameSize'.
+     * !#zh
+     * 返回设计视图大小。默认分辨率大小与 'getFrameSize' 相同。
      * @method getDesignResolutionSize
      * @return {Size}
      */
@@ -787,15 +883,26 @@ var View = cc._Class.extend({
     },
 
     /**
-     * Sets the container to desired pixel resolution and fit the game content to it.
-     * This function is very useful for adaptation in mobile browsers.
-     * In some HD android devices, the resolution is very high, but its browser performance may not be very good.
-     * In this case, enabling retina display is very costy and not suggested, and if retina is disabled, the image may be blurry.
-     * But this API can be helpful to set a desired pixel resolution which is in between.
-     * This API will do the following:
-     *     1. Set viewport's width to the desired width in pixel
-     *     2. Set body width to the exact pixel resolution
-     *     3. The resolution policy will be reset with designed view size in points.
+     * !#en
+     * Sets the container to desired pixel resolution and fit the game content to it. <br/>
+     * This function is very useful for adaptation in mobile browsers. <br/>
+     * In some HD android devices, the resolution is very high, but its browser performance may not be very good. <br/>
+     * In this case, enabling retina display is very costy and not suggested, and if retina is disabled, the image may be blurry. <br/>
+     * But this API can be helpful to set a desired pixel resolution which is in between. <br/>
+     * This API will do the following: <br/>
+     *     1. Set viewport's width to the desired width in pixel <br/>
+     *     2. Set body width to the exact pixel resolution <br/>
+     *     3. The resolution policy will be reset with designed view size in points. <br/>
+     * !#zh
+     * 设置容器所需的像素分辨率。<br/>
+     * 此函数是非常有用的适应移动浏览器中。<br/>
+     * 在一些高清 Android 设备的分辨率非常高，但其浏览器的性能可能不是很好。<br/>
+     * 在这种情况下，使视网膜显示屏是非常消耗的，而不是建议使用，但是如果视网膜被禁用时，图像可能会模糊。<br/>
+     * 但此 PI 会有所帮助，以便设定所需的像素分辨率。<br/>
+     * 这个 API 将执行以下操作：<br/>
+     *  1. 视窗的宽度设置为所需的像素宽度 <br/>
+     *  2. 设置 body 宽度的准确像素分辨率 <br/>
+     *  3. 该分辨率策略将重置设计视图大小，以点为单位
      * @method setRealPixelResolution
      * @param {Number} width Design resolution width.
      * @param {Number} height Design resolution height.
@@ -815,7 +922,8 @@ var View = cc._Class.extend({
     },
 
     /**
-     * Sets view port rectangle with points.
+     * !#en Sets view port rectangle with points
+     * !#zh 设置视区矩形点
      * @method setViewPortInPoints
      * @param {Number} x
      * @param {Number} y
@@ -831,7 +939,8 @@ var View = cc._Class.extend({
     },
 
     /**
-     * Sets Scissor rectangle with points.
+     * !#en Sets Scissor rectangle with points
+     * !#zh 设置裁剪矩形
      * @method setScissorInPoints
      * @param {Number} x
      * @param {Number} y
@@ -851,7 +960,8 @@ var View = cc._Class.extend({
     },
 
     /**
-     * Returns whether GL_SCISSOR_TEST is enable
+     * !#en Returns whether GL_SCISSOR_TEST is enable
+     * !#zh 返回 GL_SCISSOR_TEST 是否为启用
      * @method isScissorEnabled
      * @return {Boolean}
      */
@@ -860,7 +970,8 @@ var View = cc._Class.extend({
     },
 
     /**
-     * Returns the current scissor rectangle
+     * !#en Returns the current scissor rectangle
+     * !#zh 返回当前裁剪矩形
      * @method getScissorRect
      * @return {Rect}
      */
@@ -869,7 +980,8 @@ var View = cc._Class.extend({
     },
 
     /**
-     * Sets the name of the view
+     * !#en Sets the name of the view
+     * !#zh 设置视图名称
      * @method setViewName
      * @param {String} viewName
      */
@@ -880,7 +992,8 @@ var View = cc._Class.extend({
     },
 
     /**
-     * Returns the name of the view
+     * !#en Returns the name of the view
+     * !#zh 返回视图名称
      * @method getViewName
      * @return {String}
      */
@@ -889,7 +1002,8 @@ var View = cc._Class.extend({
     },
 
     /**
-     * Returns the view port rectangle.
+     * !#en Returns the view port rectangle.
+     * !#zh 返回的视图矩形
      * @method getViewPortRect
      * @return {Rect}
      */
@@ -898,7 +1012,8 @@ var View = cc._Class.extend({
     },
 
     /**
-     * Returns scale factor of the horizontal direction (X axis).
+     * !#en Returns scale factor of the horizontal direction (X axis).
+     * !#zh 返回水平方向的缩放比例 (X 轴)。
      * @method getScaleX
      * @return {Number}
      */
@@ -907,7 +1022,8 @@ var View = cc._Class.extend({
     },
 
     /**
-     * Returns scale factor of the vertical direction (Y axis).
+     * !#en Returns scale factor of the vertical direction (Y axis).
+     * !#zh 返回垂直方向的缩放比例 (Y 轴)。
      * @method getScaleY
      * @return {Number}
      */
@@ -916,7 +1032,8 @@ var View = cc._Class.extend({
     },
 
     /**
-     * Returns device pixel ratio for retina display.
+     * !#en Returns device pixel ratio for retina display.
+     * !#zh 返回视网膜显示器的像素比例。
      * @method getDevicePixelRatio
      * @return {Number}
      */
@@ -925,7 +1042,8 @@ var View = cc._Class.extend({
     },
 
     /**
-     * Returns the real location in view for a translation based on a related position
+     * !#en Returns the real location in view for a translation based on a related position
+     * !#zh 返回转换指定坐标在视图中的位置
      * @method convertToLocationInView
      * @param {Number} tx - The X axis translation
      * @param {Number} ty - The Y axis translation
@@ -980,14 +1098,18 @@ View._getInstance = function () {
 };
 
 /**
+ * !#en
  * <p>cc.ContainerStrategy class is the root strategy class of container's scale strategy,
  * it controls the behavior of how to scale the cc.container and cc.game.canvas object</p>
- *
+ * !#zh
+ * cc.ContainerStrategy 类是容器缩放策略的基类，
+ * 它控制如何缩放 cc.container 和 cc.game.canvas 对象的行为。
  * @class ContainerStrategy
  */
 cc.ContainerStrategy = cc._Class.extend(/** @lends cc.ContainerStrategy# */{
     /**
-     * Manipulation before appling the strategy
+     * !#en Manipulation before appling the strategy
+     * !#zh 在应用策略之前处理
      * @method preApply
      * @param {View} view - The target view
      */
@@ -995,7 +1117,8 @@ cc.ContainerStrategy = cc._Class.extend(/** @lends cc.ContainerStrategy# */{
     },
 
     /**
-     * Function to apply this strategy
+     * !#en Function to apply this strategy
+     * !#zh 应用此策略的方法
      * @method apply
      * @param {View} view
      * @param {Size} designedResolution
@@ -1004,7 +1127,8 @@ cc.ContainerStrategy = cc._Class.extend(/** @lends cc.ContainerStrategy# */{
     },
 
     /**
-     * Manipulation after applying the strategy
+     * !#en Manipulation after applying the strategy
+     * !#zh 在应用策略之后处理
      * @method postApply
      * @param {View} view  The target view
      */
@@ -1048,9 +1172,11 @@ cc.ContainerStrategy = cc._Class.extend(/** @lends cc.ContainerStrategy# */{
 });
 
 /**
+ * !#en
  * <p>cc.ContentStrategy class is the root strategy class of content's scale strategy,
  * it controls the behavior of how to scale the scene and setup the viewport for the game</p>
- *
+ * !#zh
+ * cc.ContentStrategy 类是内容缩放策略的基类，它控制如何缩放场景和游戏视图的行为。
  * @class ContentStrategy
  */
 cc.ContentStrategy = cc._Class.extend(/** @lends cc.ContentStrategy# */{
@@ -1081,7 +1207,8 @@ cc.ContentStrategy = cc._Class.extend(/** @lends cc.ContentStrategy# */{
     },
 
     /**
-     * Manipulation before applying the strategy
+     * !#en Manipulation before applying the strategy
+     * !#zh 在应用策略之前处理
      * @method preApply
      * @param {View} view - The target view
      */
@@ -1089,9 +1216,14 @@ cc.ContentStrategy = cc._Class.extend(/** @lends cc.ContentStrategy# */{
     },
 
     /**
-     * Function to apply this strategy
-     * The return value is {scale: [scaleX, scaleY], viewport: {cc.Rect}},
+     * !#en
+     * Function to apply this strategy </br>
+     * The return value is {scale: [scaleX, scaleY], viewport: {cc.Rect}}, </br>
      * The target view can then apply these value to itself, it's preferred not to modify directly its private variables
+     * !#zh
+     * 应用此策略的方法 </br>
+     * 返回值是 {scale: [scaleX, scaleY], viewport: {cc.Rect}}, </br>
+     * 目标视图可以将这些值应用到自身，这里不推荐直接修改其私有变量。
      * @method apply
      * @param {View} view
      * @param {Size} designedResolution
@@ -1102,7 +1234,8 @@ cc.ContentStrategy = cc._Class.extend(/** @lends cc.ContentStrategy# */{
     },
 
     /**
-     * Manipulation after applying the strategy
+     * !#en Manipulation after applying the strategy
+     * !#zh 在应用策略之后处理
      * @method postApply
      * @param {View} view - The target view
      */
@@ -1300,9 +1433,11 @@ cc.ContentStrategy = cc._Class.extend(/** @lends cc.ContentStrategy# */{
 })();
 
 /**
+ * !#en
  * <p>cc.ResolutionPolicy class is the root strategy class of scale strategy,
  * its main task is to maintain the compatibility with Cocos2d-x</p>
- *
+ * !#zh
+ * cc.ContentStrategy 类是缩放策略的基类，其主要任务是保持与Cocos2d-x的兼容性
  * @class ResolutionPolicy
  */
 /**
@@ -1325,7 +1460,8 @@ cc.ResolutionPolicy = cc._Class.extend(/** @lends cc.ResolutionPolicy# */{
     },
 
     /**
-     * Manipulation before applying the resolution policy
+     * !#en Manipulation before applying the resolution policy
+     * !#zh 在应用策略之前处理
      * @method preApply
      * @param {View} view The target view
      */
@@ -1335,9 +1471,14 @@ cc.ResolutionPolicy = cc._Class.extend(/** @lends cc.ResolutionPolicy# */{
     },
 
     /**
-     * Function to apply this resolution policy
-     * The return value is {scale: [scaleX, scaleY], viewport: {cc.Rect}},
+     * !#en
+     * Function to apply this resolution policy </br>
+     * The return value is {scale: [scaleX, scaleY], viewport: {cc.Rect}}, </br>
      * The target view can then apply these value to itself, it's preferred not to modify directly its private variables
+     * !#zh
+     * 应用此策略的方法 </br>
+     * 返回值是 {scale: [scaleX, scaleY], viewport: {cc.Rect}}, </br>
+     * 目标视图可以将这些值应用到自身，这里不推荐直接修改其私有变量。
      * @method apply
      * @param {View} view - The target view
      * @param {Size} designedResolution - The user defined design resolution
@@ -1349,7 +1490,8 @@ cc.ResolutionPolicy = cc._Class.extend(/** @lends cc.ResolutionPolicy# */{
     },
 
     /**
-     * Manipulation after appyling the strategy
+     * !#en Manipulation after appyling the strategy
+     * !#zh 在应用策略之后处理
      * @method postApply
      * @param {View} view - The target view
      */
@@ -1359,7 +1501,8 @@ cc.ResolutionPolicy = cc._Class.extend(/** @lends cc.ResolutionPolicy# */{
     },
 
     /**
-     * Setup the container's scale strategy
+     * !#en Setup the container's scale strategy
+     * !#zh 设置容器的缩放策略
      * @method setContainerStrategy
      * @param {ContainerStrategy} containerStg
      */
@@ -1369,7 +1512,8 @@ cc.ResolutionPolicy = cc._Class.extend(/** @lends cc.ResolutionPolicy# */{
     },
 
     /**
-     * Setup the content's scale strategy
+     * !#en Setup the content's scale strategy
+     * !#zh 设置内容的缩放策略
      * @method setContentStrategy
      * @param {ContentStrategy} contentStg
      */
@@ -1384,8 +1528,12 @@ cc.js.get(cc.ResolutionPolicy.prototype, "canvasSize", function () {
 });
 
 /**
+ * !#en
  * The entire application is visible in the specified area without trying to preserve the original aspect ratio.<br/>
  * Distortion can occur, and the application may appear stretched or compressed.
+ * !#zh
+ * 屏幕宽 与 设计宽比 作为X方向的缩放因子，屏幕高 与 设计高比 作为Y方向的缩放因子。<br/>
+ * 保证了设计区域完全铺满屏幕，但是可能会出现图像拉伸。
  * @property {Number} EXACT_FIT
  * @readonly
  * @static
@@ -1393,8 +1541,12 @@ cc.js.get(cc.ResolutionPolicy.prototype, "canvasSize", function () {
 cc.ResolutionPolicy.EXACT_FIT = 0;
 
 /**
+ * !#en
  * The entire application fills the specified area, without distortion but possibly with some cropping,<br/>
  * while maintaining the original aspect ratio of the application.
+ * !#zh
+ * 屏幕宽、高分别和设计分辨率宽、高计算缩放因子，取较(大)者作为宽、高的缩放因子。<br/>
+ * 保证了设计区域总能一个方向上铺满屏幕，而另一个方向一般会超出屏幕区域。
  * @property {Number} NO_BORDER
  * @readonly
  * @static
@@ -1402,8 +1554,12 @@ cc.ResolutionPolicy.EXACT_FIT = 0;
 cc.ResolutionPolicy.NO_BORDER = 1;
 
 /**
+ * !#en
  * The entire application is visible in the specified area without distortion while maintaining the original<br/>
  * aspect ratio of the application. Borders can appear on two sides of the application.
+ * !#zh
+ * 屏幕宽、高分别和设计分辨率宽、高计算缩放因子，取较(小)者作为宽、高的缩放因子。<br/>
+ * 保证了设计区域全部显示到屏幕上，但可能会有黑边。
  * @property {Number} SHOW_ALL
  * @readonly
  * @static
@@ -1411,10 +1567,12 @@ cc.ResolutionPolicy.NO_BORDER = 1;
 cc.ResolutionPolicy.SHOW_ALL = 2;
 
 /**
+ * !#en
  * The application takes the height of the design resolution size and modifies the width of the internal<br/>
  * canvas so that it fits the aspect ratio of the device<br/>
  * no distortion will occur however you must make sure your application works on different<br/>
  * aspect ratios
+ * !#zh 保持传入的设计分辨率高度不变，根据屏幕分辨率修正设计分辨率的宽度。
  * @property {Number} FIXED_HEIGHT
  * @readonly
  * @static
@@ -1422,10 +1580,12 @@ cc.ResolutionPolicy.SHOW_ALL = 2;
 cc.ResolutionPolicy.FIXED_HEIGHT = 3;
 
 /**
+ * !#en
  * The application takes the width of the design resolution size and modifies the height of the internal<br/>
  * canvas so that it fits the aspect ratio of the device<br/>
  * no distortion will occur however you must make sure your application works on different<br/>
  * aspect ratios
+ * !#zh 保持传入的设计分辨率宽度不变，根据屏幕分辨率修正设计分辨率的高度。
  * @property {Number} FIXED_WIDTH
  * @readonly
  * @static
@@ -1433,7 +1593,8 @@ cc.ResolutionPolicy.FIXED_HEIGHT = 3;
 cc.ResolutionPolicy.FIXED_WIDTH = 4;
 
 /**
- * Unknow policy
+ * !#en Unknow policy
+ * !#zh 未知策略
  * @property {Number} UNKNOWN
  * @readonly
  * @static

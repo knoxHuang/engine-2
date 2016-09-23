@@ -25,16 +25,21 @@
 var GETTINGSHORTERFACTOR = 20;
 
 /**
- * Enum for Scrollbar direction
+ * !#en Enum for Scrollbar direction
+ * !#zh 滚动条方向
  * @enum Scrollbar.Direction
  */
 var Direction = cc.Enum({
     /**
+     * !#en The horizontal direction.
+     * !#zh 水平方向
      * @property {Number} HORIZONTAL
      */
     HORIZONTAL: 0,
 
     /**
+     * !#en The vertical direction.
+     * !#zh 垂直方向
      * @property {Number} VERTICAL
      */
     VERTICAL: 1

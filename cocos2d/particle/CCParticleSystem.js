@@ -39,7 +39,7 @@ var EmitterMode = cc.Enum({
     /**
      * !#en Uses radius movement + rotation.
      * !#zh 半径模式，可以使粒子以圆圈方式旋转，它也可以创造螺旋效果让粒子急速前进或后退。
-     * @property {Number} RADIUS - Uses radius movement + rotation.
+     * @property {Number} RADIUS
      */
     RADIUS: 1
 });
