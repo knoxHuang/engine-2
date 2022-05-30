@@ -359,6 +359,28 @@ let Label = cc.Class({
             tooltip: CC_DEV && 'i18n:COMPONENT.label.wrap',
         },
 
+        _canSetNodeColor: true,
+        /**
+         * !#en The font color of label.
+         * !#zh 文本颜色。
+         * @property {Color} fontColor
+         */
+        _fontColor: cc.Color.WHITE,
+        fontColor: {
+            get() {
+                return this._fontColor;
+            },
+            set(value) {
+                this._fontColor.set(value);
+                if (this._canSetNodeColor) {
+                    this.node.color = new cc.Color(value.r, value.g, value.b, this.node.color.a);
+                }
+                this.setVertsDirty();
+            },
+            animatable: true,
+            tooltip: CC_DEV && 'i18n:COMPONENT.label.font_color',
+        },
+
         // 这个保存了旧项目的 file 数据
         _N$file: null,
 
@@ -654,9 +676,18 @@ let Label = cc.Class({
     },
 
     _nodeColorChanged () {
+        this.syncColor();
         if (!(this.font instanceof cc.BitmapFont)) {
             this.setVertsDirty();
         }
+    },
+
+    syncColor() {
+        this._canSetNodeColor = false;
+        let color = this.node.color;
+        color.a = this.fontColor.a;
+        this.fontColor = color;
+        this._canSetNodeColor = true;
     },
 
     setVertsDirty() {
