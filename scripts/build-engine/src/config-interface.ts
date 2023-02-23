@@ -24,11 +24,6 @@ export interface Config {
      * The constants config for engine and user.
      */
     constants: IConstantConfig;
-
-    /**
-     * The decorators to be optimize when build engine.
-     */
-    optimizeDecorators: IOptimizeDecorators;
 }
 
 export interface IndexConfig {
@@ -116,15 +111,4 @@ export interface IConstantInfo {
 
 export interface IConstantConfig {
     [ConstantName: string]: IConstantInfo;
-}
-
-export interface IOptimizeDecorators {
-    /**
-     * The decorators which should be optimized when they only decorate class fields.
-     */
-    fieldDecorators: string[],
-    /**
-     * The decorators which should be removed directly when they only work in Cocos Creator editor.
-     */
-    editorDecorators: string[],
 }

@@ -26,7 +26,7 @@
 import { DEV, EDITOR, JSB, TEST } from 'internal:constants';
 import { CCString, CCInteger, CCFloat, CCBoolean } from '../utils/attribute';
 import { IExposedAttributes } from '../utils/attribute-defines';
-import { LegacyPropertyDecorator, getSubDict, getClassCache, BabelPropertyDecoratorDescriptor, Initializer } from './utils';
+import { LegacyPropertyDecorator, getSubDict, getClassCache, BabelPropertyDecoratorDescriptor } from './utils';
 import { warnID, errorID } from '../../platform/debug';
 import { js } from '../../utils/js';
 import { getFullFormOfProperty } from '../utils/preprocess-class';
@@ -66,15 +66,15 @@ export function property (type: PropertyType): LegacyPropertyDecorator;
 export function property (...args: Parameters<LegacyPropertyDecorator>): void;
 
 export function property (
-    target?: Parameters<LegacyPropertyDecorator>[0] | PropertyType,
+    target?: Parameters<LegacyPropertyDecorator>[0],
     propertyKey?: Parameters<LegacyPropertyDecorator>[1],
-    descriptorOrInitializer?: Parameters<LegacyPropertyDecorator>[2],
+    descriptor?: Parameters<LegacyPropertyDecorator>[2],
 ) {
     let options: IPropertyOptions | PropertyType | null = null;
     function normalized (
         target: Parameters<LegacyPropertyDecorator>[0],
         propertyKey: Parameters<LegacyPropertyDecorator>[1],
-        descriptorOrInitializer: Parameters<LegacyPropertyDecorator>[2],
+        descriptor: Parameters<LegacyPropertyDecorator>[2],
     ) {
         const classStash = getOrCreateClassStash(target);
         const propertyStash = getOrCreateEmptyPropertyStash(
@@ -88,7 +88,7 @@ export function property (
             classConstructor,
             propertyKey,
             options,
-            descriptorOrInitializer,
+            descriptor,
         );
     }
 
@@ -104,12 +104,12 @@ export function property (
         return normalized;
     } else {
         // @property
-        normalized(target as Parameters<LegacyPropertyDecorator>[0], propertyKey, descriptorOrInitializer);
+        normalized(target, propertyKey, descriptor);
         return undefined;
     }
 }
 
-function getDefaultFromInitializer (initializer: Initializer) {
+function getDefaultFromInitializer (initializer: () => unknown) {
     let value: unknown;
     try {
         value = initializer();
@@ -160,19 +160,19 @@ function getOrCreateEmptyPropertyStash (
 export function getOrCreatePropertyStash (
     target: Parameters<LegacyPropertyDecorator>[0],
     propertyKey: Parameters<LegacyPropertyDecorator>[1],
-    descriptorOrInitializer?: Parameters<LegacyPropertyDecorator>[2],
+    descriptor?: BabelPropertyDecoratorDescriptor,
 ): PropertyStash {
     const classStash = getClassCache(target.constructor) as ClassStash;
     const ccclassProto = getSubDict(classStash, 'proto');
     const properties = getSubDict(ccclassProto, 'properties');
     const propertyStash = properties[(propertyKey as string)] ??= {} as PropertyStash;
     propertyStash.__internalFlags |= PropertyStashInternalFlag.STANDALONE;
-    if (descriptorOrInitializer && typeof descriptorOrInitializer !== 'function' && (descriptorOrInitializer.get || descriptorOrInitializer.set)) {
-        if (descriptorOrInitializer.get) {
-            propertyStash.get = descriptorOrInitializer.get;
+    if (descriptor && (descriptor.get || descriptor.set)) {
+        if (descriptor.get) {
+            propertyStash.get = descriptor.get;
         }
-        if (descriptorOrInitializer.set) {
-            propertyStash.set = descriptorOrInitializer.set;
+        if (descriptor.set) {
+            propertyStash.set = descriptor.set;
         }
     } else {
         setDefaultValue(
@@ -180,7 +180,7 @@ export function getOrCreatePropertyStash (
             propertyStash,
             target.constructor as new () => unknown,
             propertyKey,
-            descriptorOrInitializer,
+            descriptor,
         );
     }
     return propertyStash;
@@ -192,11 +192,10 @@ function mergePropertyOptions (
     ctor,
     propertyKey: Parameters<LegacyPropertyDecorator>[1],
     options,
-    descriptorOrInitializer: Parameters<LegacyPropertyDecorator>[2] | undefined,
+    descriptor: Parameters<LegacyPropertyDecorator>[2] | undefined,
 ) {
     let fullOptions;
-    const isGetset = descriptorOrInitializer && typeof descriptorOrInitializer !== 'function'
-        && (descriptorOrInitializer.get || descriptorOrInitializer.set);
+    const isGetset = descriptor && (descriptor.get || descriptor.set);
     if (options) {
         fullOptions = getFullFormOfProperty(options, isGetset);
     }
@@ -212,11 +211,11 @@ function mergePropertyOptions (
                 warnID(3655, propertyKey, js.getClassName(ctor), propertyKey, propertyKey);
             }
         }
-        if ((<BabelPropertyDecoratorDescriptor>descriptorOrInitializer).get) {
-            propertyRecord.get = (<BabelPropertyDecoratorDescriptor>descriptorOrInitializer).get;
+        if (descriptor!.get) {
+            propertyRecord.get = descriptor!.get;
         }
-        if ((<BabelPropertyDecoratorDescriptor>descriptorOrInitializer).set) {
-            propertyRecord.set = (<BabelPropertyDecoratorDescriptor>descriptorOrInitializer).set;
+        if (descriptor!.set) {
+            propertyRecord.set = descriptor!.set;
         }
     } else { // Target property is non-accessor
         if (DEV && (propertyRecord.get || propertyRecord.set)) {
@@ -230,7 +229,7 @@ function mergePropertyOptions (
             propertyRecord,
             ctor,
             propertyKey,
-            descriptorOrInitializer,
+            descriptor,
         );
 
         if ((EDITOR && !window.Build) || TEST) {
@@ -247,7 +246,7 @@ function setDefaultValue<T> (
     propertyStash: PropertyStash,
     classConstructor: new () => T,
     propertyKey: PropertyKey,
-    descriptorOrInitializer: BabelPropertyDecoratorDescriptor | Initializer | undefined,
+    descriptor: BabelPropertyDecoratorDescriptor | undefined,
 ) {
     // Default values are needed by editor, and now editor run with web version, so don't
     // have to provide default values.
@@ -255,13 +254,12 @@ function setDefaultValue<T> (
         return;
     }
 
-    if (descriptorOrInitializer) {
-        if (typeof descriptorOrInitializer === 'function') {
-            propertyStash.default = getDefaultFromInitializer(descriptorOrInitializer);
-        } else if (descriptorOrInitializer.initializer) {
-            // In case of Babel, if an initializer is given for class field.
-            // That initializer is passed to `descriptor.initializer`.
-            propertyStash.default = getDefaultFromInitializer(descriptorOrInitializer.initializer);
+    if (descriptor) {
+        // In case of Babel, if an initializer is given for class field.
+        // That initializer is passed to `descriptor.initializer`.
+        // babel
+        if (descriptor.initializer) {
+            propertyStash.default = getDefaultFromInitializer(descriptor.initializer);
         }
     } else {
         // In case of TypeScript, we can not directly capture the initializer.

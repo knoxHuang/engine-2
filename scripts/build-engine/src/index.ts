@@ -9,7 +9,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import { terser as rpTerser } from 'rollup-plugin-terser';
 import babelPresetEnv from '@babel/preset-env';
 import type { Options as babelPresetEnvOptions } from '@babel/preset-env';
-import { babelPresetCC, helpers } from '@cocos/creator-programming-babel-preset-cc'
+import babelPresetCc from '@cocos/babel-preset-cc';
 // @ts-expect-error: No typing
 import babelPluginTransformForOf from '@babel/plugin-transform-for-of';
 import * as rollup from 'rollup';
@@ -31,7 +31,6 @@ import { codeAsset } from './rollup-plugins/code-asset';
 import { ModeType, PlatformType } from './constant-manager';
 import { assetUrl } from './rollup-plugins/asset-url';
 
-export { IOptimizeDecorators } from './config-interface';
 export { ModeType, PlatformType, FlagType, ConstantOptions, BuildTimeConstants, CCEnvConstants } from './constant-manager';
 export { StatsQuery };
 export { ModuleOption, enumerateModuleOptionReps, parseModuleOption };
@@ -312,7 +311,6 @@ async function doBuild ({
     });
     console.debug(`Module source "internal-constants":\n${vmInternalConstants}`);
     rpVirtualOptions['internal:constants'] = vmInternalConstants;
-    rpVirtualOptions[helpers.CC_HELPER_MODULE] = helpers.generateHelperModuleSource();
 
     const forceStandaloneModules = ['wait-for-ammo-instantiation', 'decorator'];
 
@@ -375,8 +373,6 @@ async function doBuild ({
         } & babel.TransformOptions>,
     }
 
-    const { fieldDecorators, editorDecorators } = statsQuery.getOptimizeDecorators();
-
     const babelOptions: RollupBabelInputPluginOptions & BabelOverrides = {
         babelHelpers: 'bundled',
         extensions: ['.js', '.ts'],
@@ -396,12 +392,9 @@ async function doBuild ({
         plugins: babelPlugins,
         presets: [
             [babelPresetEnv, presetEnvOptions],
-            [babelPresetCC, {
+            [babelPresetCc, {
                 allowDeclareFields: true,
-                ccDecoratorHelpers: 'external',
-                fieldDecorators,
-                editorDecorators,
-            } as babelPresetCC.Options],
+            } as babelPresetCc.Options],
         ],
     };
 
