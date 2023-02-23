@@ -33,10 +33,6 @@ export class Application {
                     showFPS: this.showFPS,
                 }
             }
-        }).then(
-        () => {
-            cc.game.run()
-        }
-        );
+        }).then(() => cc.game.run());
     }
 }
