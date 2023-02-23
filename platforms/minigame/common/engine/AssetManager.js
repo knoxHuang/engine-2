@@ -154,13 +154,13 @@ function loadFont (url, options, onComplete) {
 }
 
 function doNothing (content, options, onComplete) {
-    exists(content, (existence) => {
-        if (existence) {
-            onComplete(null, content); 
-        } else {
-            onComplete(new Error(`file ${content} does not exist!`));
-        }
-    });
+    onComplete(null, content);
+    // exists(content, (existence) => {
+    //     if (existence) {
+    //     } else {
+    //         onComplete(new Error(`file ${content} does not exist!`));
+    //     }
+    // });
 }
 
 function downloadAsset (url, options, onComplete) {
@@ -446,7 +446,7 @@ function transformUrl (url, options) {
             }
             else {
                 var tempUrl = cacheManager.tempFiles.get(url);
-                if (tempUrl) { 
+                if (tempUrl) {
                     inLocal = true;
                     url = tempUrl;
                 }
