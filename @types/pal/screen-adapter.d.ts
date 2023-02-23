@@ -17,8 +17,6 @@ declare module 'pal/screen-adapter' {
          * Now it only works on Web platform.
          */
         exactFitScreen: boolean,
-
-        overrideDpr?: number,
     }
 
     class ScreenAdapter {

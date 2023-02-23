@@ -42,8 +42,7 @@ class Screen {
     public init () {
         const exactFitScreen = settings.querySettings(Settings.Category.SCREEN, 'exactFitScreen') ?? true;
         const orientation = settings.querySettings(Settings.Category.SCREEN, 'orientation') ?? 'auto';
-        const overrideDpr = settings.querySettings(Settings.Category.SCREEN, 'overrideDpr');
-        screenAdapter.init({ exactFitScreen, configOrientation: orientation, overrideDpr }, () => {
+        screenAdapter.init({ exactFitScreen, configOrientation: orientation }, () => {
             const director = legacyCC.director;
             if (!director.root?.pipeline) {
                 warnID(1220);
