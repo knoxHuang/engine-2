@@ -23,7 +23,7 @@
  THE SOFTWARE.
 */
 
-import { DEV, EDITOR, SUPPORT_JIT, TEST } from 'internal:constants';
+import { DEV, EDITOR, SUPPORT_JIT, TEST, NODEJS } from 'internal:constants';
 import { errorID, warnID, error } from '../platform/debug';
 import * as js from '../utils/js';
 import { getSuper } from '../utils/js';
@@ -87,7 +87,7 @@ function defineProp (cls, className, propName, val): void {
 
     // apply attributes
     parseAttributes(cls, val, className, propName, false);
-    if ((EDITOR && !window.Build) || TEST) {
+    if (((EDITOR) && !window.Build) || TEST) {
         for (let i = 0; i < onAfterProps_ET.length; i++) {
             onAfterProps_ET[i](cls, propName);
         }
@@ -179,7 +179,7 @@ function define (className, baseClass, options): any {
 
     const cls = doDefine(className, baseClass, options);
 
-    if (EDITOR) {
+    if (EDITOR || NODEJS) {
         // for RenderPipeline, RenderFlow, RenderStage
         const isRenderPipeline = js.isChildClassOf(baseClass, legacyCC.RenderPipeline);
         const isRenderFlow = js.isChildClassOf(baseClass, legacyCC.RenderFlow);
